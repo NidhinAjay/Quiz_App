@@ -3,7 +3,7 @@ import 'package:quiz_app/model_class.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() {
-  runApp(const quizapp());
+  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: quizapp()));
 }
 
 class quizapp extends StatefulWidget {
@@ -39,7 +39,6 @@ class _quizappState extends State<quizapp> {
     quiz(
         q: 'The liver is the largest internal organ in the human body.',
         a: true),
-    quiz(q: 'Completed', a: true)
   ];
 
   List<Icon> l3 = [];
@@ -78,10 +77,20 @@ class _quizappState extends State<quizapp> {
     setState(() {
       if (finish() == true) {
         Alert(
-          context: context,
-          title: "FInished",
-          desc: "FInished Successfully",
-        ).show();
+            context: context,
+            title: "Completed",
+          buttons: [
+          DialogButton(
+            child: Text(
+              "Start New",
+              style: TextStyle(color: Colors.white, fontSize: 15),
+            ),
+            onPressed: () => Navigator.pop(context),
+            width: 120,
+          )
+        ],)
+            .show();
+
         reset();
         l3 = [];
       } else {
@@ -103,82 +112,79 @@ class _quizappState extends State<quizapp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.grey,
-        body: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                question(),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800),
-              ),
-              Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      bc(true);
-                    },
-                    highlightColor: Colors.red,
-                    child: Card(
-                      elevation: 4,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 13),
-                          child: Text(
-                            "True",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 30,
-                                fontWeight: FontWeight.w200),
-                          ),
+    return Scaffold(
+      backgroundColor: Colors.grey,
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              question(),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800),
+            ),
+            Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    bc(true);
+                  },
+                  highlightColor: Colors.red,
+                  child: Card(
+                    elevation: 4,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 13),
+                        child: Text(
+                          "True",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w200),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 8),
-                  InkWell(
-                    onTap: () {
-                      bc(false);
-                    },
-                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.hovered))
-                        return Colors.redAccent;
-                      return null;
-                    }),
-                    child: Card(
-                      elevation: 4,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 13),
-                          child: Text(
-                            "False",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 30,
-                                fontWeight: FontWeight.w200),
-                          ),
+                ),
+                SizedBox(height: 8),
+                InkWell(
+                  onTap: () {
+                    bc(false);
+                  },
+                  overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.redAccent;
+                    return null;
+                  }),
+                  child: Card(
+                    elevation: 4,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 13),
+                        child: Text(
+                          "False",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w200),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: l3,
-          ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: l3,
         ),
       ),
     );
